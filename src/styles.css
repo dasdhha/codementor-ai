@@ -1,0 +1,267 @@
+:root{
+  /* Light-mode / default palette (WCAG-friendly) */
+  --text-primary: #111827; /* headings, primary text */
+  --text-secondary: #374151; /* paragraph text */
+  --text-muted: #6b7280; /* muted */
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --border-color: #e5e7eb;
+
+  /* Dark-mode tokens (overridden in media query) */
+  --dark-bg: #0f172a;
+  --dark-panel: #111827;
+  --dark-text: #1f2937;
+
+  /* compatibility aliases used in styles */
+  --card-bg: var(--bg-primary);
+  --border: var(--border-color);
+  --panel: var(--bg-secondary);
+  --card-radius: 12px;
+  --accent: #10b981;
+  --glass: rgba(255,255,255,0.03);
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto;
+  --head-1: 28px;
+  --head-2: 20px;
+  --head-3: 16px;
+  --lead: 15px;
+}
+/* Smooth theme transition helper (applied briefly when switching) */
+.theme-transition * {
+  transition: background-color .28s ease, color .28s ease, border-color .28s ease, box-shadow .28s ease, fill .28s ease, stroke .28s ease;
+}
+
+/* Explicit light theme variables */
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --card-bg: #ffffff;
+
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+
+  --accent: #7c3aed;
+  --border: #e5e7eb;
+  --panel: var(--bg-secondary);
+}
+
+/* Explicit dark theme variables (VSCode-inspired) */
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #111827;
+  --card-bg: #1e293b;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --accent: #8b5cf6;
+  --border: #334155;
+  --panel: var(--bg-secondary);
+}
+
+/* Ensure default data-theme is set if nothing else declared */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+.app-root{height:100vh;display:flex;flex-direction:column}
+.center{display:flex;align-items:center;justify-content:center;height:100vh}
+body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto; background:var(--bg-primary); color:var(--text-primary)}
+h1{font-size:var(--head-1);line-height:1.05;margin:0 0 8px 0;font-weight:800}
+h2{font-size:var(--head-2);line-height:1.1;margin:0 0 6px 0;font-weight:700}
+h3{font-size:var(--head-3);line-height:1.15;margin:0 0 6px 0;font-weight:600}
+.lead{font-size:var(--lead);color:var(--muted-contrast)}
+.layout{display:grid;grid-template-columns:280px 1fr 360px;gap:16px;padding:18px;height:calc(100vh - 64px)}
+.sidebar{background:linear-gradient(180deg,var(--panel),transparent);border-radius:12px;padding:16px;min-width:220px;box-shadow:0 8px 24px rgba(2,6,23,0.08)}
+.editor-panel{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:18px;box-shadow:0 6px 20px rgba(2,6,23,0.5)}
+.right-panel{background:var(--panel);border-radius:12px;padding:16px;overflow:auto}
+.topbar{height:64px;background:transparent;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid rgba(255,255,255,0.03);font-weight:600}
+.onboard-modal{position:fixed;inset:0;background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6));display:flex;align-items:center;justify-content:center}
+.card{background:var(--card-bg);border-radius:var(--card-radius);padding:22px;min-width:560px;max-width:92vw;border:1px solid var(--border)}
+.btn{background:var(--accent);color:#ffffff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+.btn{transition:box-shadow .12s ease,transform .12s ease}
+.muted{color:var(--muted)}
+.fade-out{animation:fadeOut .4s ease forwards}
+.fade-in{animation:fadeIn .35s ease forwards}
+.btn[aria-busy="true"]{opacity:0.9;position:relative}
+.btn[aria-busy="true"]::after{content:'';width:14px;height:14px;border:2px solid rgba(255,255,255,0.12);border-top-color:rgba(255,255,255,0.9);border-radius:50%;position:absolute;right:-22px;top:50%;transform:translateY(-50%);animation:spin .9s linear infinite}
+
+@keyframes spin{from{transform:translateY(-50%) rotate(0)}to{transform:translateY(-50%) rotate(360deg)}}
+@keyframes fadeOut{to{opacity:0;transform:translateY(-8px) scale(.995)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.chat-list{display:flex;flex-direction:column;gap:8px}
+.chat-bubble{background:rgba(255,255,255,0.03);padding:8px;border-radius:8px}
+
+/* Override and responsive improvements (appended) */
+/* Make cards and text use tokenized colors for better contrast */
+.card-surface{background:var(--card-bg);color:var(--text-primary);border:1px solid var(--border);box-shadow:0 10px 30px rgba(2,6,23,0.12)}
+.card{background:var(--card-bg);color:var(--text-primary);box-shadow:0 8px 30px rgba(2,6,23,0.08)}
+.lesson-card{background:var(--card-bg);border:1px solid var(--border);color:var(--text-primary);padding:12px;border-radius:10px}
+.lesson-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(2,6,23,0.12)}
+.lesson-card .muted{color:var(--text-muted)}
+.progress-bar{background:rgba(0,0,0,0.06)}
+.progress-fill{background:linear-gradient(90deg,var(--accent),#3ad6ff)}
+
+.search input{background:var(--card-bg);border:1px solid var(--border);color:var(--text-primary)}
+
+/* Sidebar surface adjustments */
+.sidebar-surface{background:linear-gradient(180deg,var(--panel),transparent);border-right:1px solid var(--border)}
+.sidebar-brand .logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(90deg,var(--accent),#7c3aed);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+
+/* Responsive behavior for smaller screens */
+@media (max-width: 1100px){
+  .app-shell{flex-direction:column}
+  .sidebar-surface{width:100%;display:flex;flex-direction:row;gap:12px;padding:10px}
+  .nav-label{display:none}
+  .main-column{width:100%}
+  .ai-workspace{grid-template-columns:1fr;}
+  .dash-grid{grid-template-columns:1fr}
+}
+@media (max-width:700px){
+  .search input{max-width:40vw}
+  .card-surface{padding:12px}
+  .topbar-right{gap:6px}
+}
+
+/* Make lesson cards accessible as buttons */
+.lesson-card[role="button"]{cursor:pointer;border:none;background:var(--card-bg);padding:12px}
+.lesson-card[role="button"]:focus{outline:3px solid rgba(124,58,237,0.14);outline-offset:3px}
+
+
+/* Light-mode overrides to ensure headings and key UI elements are dark on white backgrounds */
+@media (prefers-color-scheme: light) {
+  body{background:#ffffff;color:var(--text-primary)}
+  h1,h2,h3{color:var(--text-primary)}
+  .card, .card-surface{background:#ffffff;color:var(--text-primary);border:1px solid var(--border-color)}
+  .sidebar-surface{background:#f8fafc;color:var(--text-primary);border-right:1px solid var(--border-color)}
+  .sidebar-brand{color:var(--text-primary)}
+  .nav-label{color:var(--text-primary)}
+  .muted{color:var(--text-secondary)}
+  input,select{background:#ffffff;color:var(--text-primary);border:1px solid #d1d5db}
+}
+
+/* Dark-mode variable overrides to preserve app dark appearance when user has no explicit data-theme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]){
+    --bg-primary: var(--dark-bg);
+    --card-bg: var(--dark-panel);
+    --panel: var(--dark-panel);
+    --text-primary: #f8fafc;
+    --text-secondary: #c7d7de;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --accent: #8b5cf6;
+  }
+  body{background:linear-gradient(180deg,var(--dark-bg),var(--panel));color:var(--text-primary)}
+}
+
+/* Lesson cards and progress */
+.lesson-card{background:var(--card-bg);padding:14px;border-radius:12px;border:1px solid var(--border);cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
+.lesson-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(2,6,23,0.12)}
+.lesson-card.compact{padding:10px}
+.progress-bar{height:10px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden;border:1px solid rgba(0,0,0,0.06)}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#3ad6ff);width:0}
+.lesson-card strong{font-size:14px}
+.muted{font-size:13px;color:var(--text-muted)}
+
+.lesson-card[aria-locked="true"]{opacity:0.6;filter:grayscale(0.2)}
+.lesson-card .locked-badge{background:rgba(255,255,255,0.03);padding:4px 8px;border-radius:6px;font-size:12px}
+
+.card-surface{transition:transform .12s ease,box-shadow .12s ease;border-radius:var(--card-radius);padding:14px;background:var(--card-bg);border:1px solid var(--border);color:var(--text-primary)}
+.card-surface:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(2,6,23,0.10)}
+
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;border:none;background:transparent;color:inherit;width:100%;text-align:left;cursor:pointer}
+.nav-item:hover{background:rgba(255,255,255,0.02);transform:translateX(4px);color:var(--text-primary)}
+.nav-item:focus{outline:2px solid rgba(99,102,241,0.12)}
+
+/* Accessible helpers */
+.sr-only{position: absolute !important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;border:0;padding:0;margin:-1px}
+
+/* Focus-visible styles for keyboard users */
+:focus-visible{outline:3px solid rgba(124,58,237,0.18);outline-offset:2px}
+
+/* Section identities */
+.page-dashboard .card-surface{border-left:4px solid rgba(124,58,237,0.14)}
+.page-lessons .card-surface{border-left:4px solid rgba(58,214,255,0.10)}
+.page-roadmap .card-surface{border-left:4px solid rgba(255,214,102,0.08)}
+.page-ai .card-surface{border-left:4px solid rgba(186,128,255,0.08)}
+.page-practice .card-surface{border-left:4px solid rgba(255,119,119,0.08)}
+.page-projects .card-surface{border-left:4px solid rgba(102,204,255,0.08)}
+.page-settings .card-surface{border-left:4px solid rgba(200,200,200,0.06)}
+
+
+/* Buttons */
+.btn{padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent), color-mix(in srgb, var(--accent) 60%, black));color: #ffffff;font-weight:700}
+.btn:active{transform:translateY(1px)}
+
+/* Dashboard */
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card-surface{background:var(--card-bg);padding:16px;border-radius:12px;border:1px solid var(--border);box-shadow:0 8px 24px rgba(2,6,23,0.08)}
+
+svg { overflow:visible }
+
+/* App shell layout */
+.app-shell{display:flex;height:100vh;width:100vw;background:linear-gradient(180deg,var(--bg-primary),var(--panel));}
+.sidebar-surface{width:260px;padding:18px;border-right:1px solid var(--border);background:linear-gradient(180deg,var(--panel),transparent);display:flex;flex-direction:column;gap:12px}
+.sidebar-surface.collapsed{width:72px}
+.sidebar-brand{font-weight:700;font-size:16px;margin-bottom:6px;color:var(--text-primary)}
+
+/* visible skip-link when focused */
+.skip-link:focus{position:static;left:auto;top:auto;height:auto;width:auto;padding:8px 12px;margin:8px;border-radius:6px;background:var(--card-bg);color:var(--text-primary);z-index:999}
+.nav-group{margin-top:6px}
+.nav-group-label{font-size:11px;margin-bottom:6px;color:var(--muted)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;border:none;background:transparent;color:inherit;width:100%;text-align:left;cursor:pointer}
+.nav-item:hover{background:rgba(255,255,255,0.02);transform:translateX(4px)}
+.nav-item.active{background:linear-gradient(90deg,rgba(16,185,129,0.12),rgba(59,130,246,0.04));box-shadow:inset 0 0 0 1px rgba(55,65,81,0.06);color:var(--text-primary)}
+.nav-item.active{background:linear-gradient(90deg, rgba(139,92,246,0.12), rgba(124,58,237,0.04));box-shadow:inset 0 0 0 1px rgba(55,65,81,0.06);color:var(--text-primary)}
+.nav-item.active::before{content:'';width:4px;height:100%;background:var(--accent);position:absolute;left:0;border-radius:4px}
+.nav-item{position:relative}
+.nav-item svg{color:var(--text-secondary)}
+.nav-item.active svg{color:var(--accent)}
+.nav-label{font-weight:600;color:var(--text-primary)}
+
+.main-column{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar-surface{height:64px;display:flex;align-items:center;justify-content:space-between;padding:8px 18px;border-bottom:1px solid var(--border);background:transparent}
+.topbar-left{display:flex;gap:12px;align-items:center}
+.search input{width:420px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-primary)}
+.icon-btn{background:transparent;border:none;padding:8px;border-radius:8px;cursor:pointer;color:var(--text-primary)}
+.icon-btn:hover{background:rgba(255,255,255,0.02)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.xp{font-weight:700}
+.streak{color:var(--muted)}
+
+.main-content{padding:18px;overflow:auto}
+
+/* AI workspace layout */
+.ai-workspace{display:grid;grid-template-columns:360px 1fr 360px;gap:14px}
+.ai-left{min-width:320px}
+.ai-center{min-width:0}
+.ai-right{min-width:280px}
+
+
+
+/* Polished UI tweaks */
+body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto}
+h2,h3,h4{margin:0 0 8px 0}
+.sidebar{transition:transform .18s ease,box-shadow .18s ease}
+.sidebar:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+.card{box-shadow:0 8px 30px rgba(2,6,23,0.7)}
+.btn{transition:transform .14s ease,box-shadow .14s ease}
+.btn:active{transform:translateY(1px)}
+input,select{background:var(--card-bg);border:1px solid var(--border);color:var(--text-primary);border-radius:8px}
+pre{white-space:pre-wrap}
+
+.app-root{height:100vh;display:flex;flex-direction:column}
+.center{display:flex;align-items:center;justify-content:center;height:100vh}
+.layout{display:grid;grid-template-columns:300px 1fr 420px;gap:12px;padding:12px;height:100vh}
+.sidebar{background:var(--panel);border-radius:8px;padding:12px}
+.editor-panel{background:linear-gradient(180deg,var(--glass),transparent);border-radius:8px;padding:10px}
+.right-panel{background:var(--panel);border-radius:8px;padding:12px;overflow:auto}
+.topbar{height:56px;background:var(--panel);display:flex;align-items:center;padding:0 12px;border-bottom:1px solid rgba(255,255,255,0.02)}
+.onboard-modal{position:fixed;inset:0;background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6));display:flex;align-items:center;justify-content:center}
+.card{background:var(--card-bg);border-radius:10px;padding:18px;min-width:560px}
+.btn{background:var(--accent);color:#ffffff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+.muted{color:var(--muted)}
+.chat-list{display:flex;flex-direction:column;gap:8px}
+.chat-bubble{background:rgba(255,255,255,0.03);padding:8px;border-radius:8px}
